@@ -1,0 +1,7 @@
+# Ignorar contraseñas y entornos virtuales
+.env
+__pycache__/
+
+# Ignorar los excels generados para no ensuciar el repositorio
+*.xlsx
+*.csv
