@@ -1,5 +1,5 @@
 """
-Genera el reporte Excel con formato prolijo.
+Genera el reporte Excel.
 """
  
 from pathlib import Path

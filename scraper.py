@@ -11,35 +11,38 @@ from email_sender import enviar_reporte
 from excel_report import generar_excel
 
 
-API_URL = "https://dolarito.ar/api/v1/todas"
+API_URL = "https://dolarapi.com/v1/dolares"
 
 HISTORICO_CSV = Path("historico_dolar.csv")
 
 
 def obtener_precios() -> dict:
-    """Llama a la API pública de dolarito.ar y devuelve los precios."""
-    headers = {"User-Agent": "Mozilla/5.0 (DolarBot/1.0)"}
+    """Llama a la API pública de DolarAPI y devuelve los precios."""
+    headers = {"Accept": "application/json"}
     response = requests.get(API_URL, headers=headers, timeout=10)
     response.raise_for_status()
     return response.json()
 
 
-def parsear_datos(raw: dict) -> list[dict]:
-    """Convierte la respuesta de la API a una lista de dicts limpia."""
-    tipos_interes = ["blue", "oficial", "bolsa", "contadoconliqui", "mayorista", "cripto"]
+def parsear_datos(raw) -> list[dict]:
+    """Convierte la respuesta de la API a una lista limpia, a prueba de fallos."""
     resultado = []
     fecha_hoy = datetime.now().strftime("%Y-%m-%d %H:%M")
+    lista_datos = raw if isinstance(raw, list) else [raw]
 
-    for tipo in tipos_interes:
-        if tipo in raw:
-            info = raw[tipo]
-            resultado.append({
-                "fecha": fecha_hoy,
-                "tipo": tipo.capitalize(),
-                "compra": float(info.get("compra", 0)),
-                "venta": float(info.get("venta", 0)),
-                "variacion": info.get("variacion", "—"),
-            })
+    for item in lista_datos:
+        if not isinstance(item, dict):
+            continue # Si nos manda basura que no es un diccionario, lo ignoramos
+        nombre = item.get("nombre", item.get("casa", "Desconocido"))
+        
+        # Usamos 'or 0' por si la API nos manda un dato vacío (None) para no romper el float
+        resultado.append({
+            "fecha": fecha_hoy,
+            "tipo": str(nombre).capitalize(),
+            "compra": float(item.get("compra") or 0),
+            "venta": float(item.get("venta") or 0),
+            "variacion": "—",
+        })
 
     return resultado
 
@@ -79,6 +82,10 @@ def main():
     raw = obtener_precios()
     datos = parsear_datos(raw)
     df = pd.DataFrame(datos)
+    if df.empty:
+        print("Error: La API no devolvió datos válidos.")
+        print("Esto nos mandó la API para que lo revisemos: ", raw)
+        return
     print(f"  OK — {len(df)} tipos de cambio obtenidos")
 
     # 2. Mostrar en consola
