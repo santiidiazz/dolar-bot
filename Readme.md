@@ -9,6 +9,12 @@ Envía email HTML con tabla de precios y alertas si el blue sube mucho
 Guarda un historial en CSV para análisis posterior
 Se puede programar para correr solo todos los días a las 9 AM
 
+Casos de Uso
+* **Ahorro de tiempo:** Elimina la necesidad de revisar portales financieros manualmente cada mañana.
+* **Toma de decisiones:** Alertas inmediatas al celular/correo cuando el mercado presenta variaciones bruscas.
+* **Registro contable:** El archivo Excel adjunto sirve como registro histórico para equipos de administración.
+
+
 Estructura del proyecto
 dolar_bot/
 ├── scraper.py        ← punto de entrada principal
@@ -18,7 +24,7 @@ dolar_bot/
 ├── requirements.txt
 └── .env              ← tus credenciales (no subir a GitHub)
 Instalación
-bashgit clone https://github.com/tuusuario/dolar-bot
+bashgit clone https://github.com/santiidiazz/dolar-bot
 cd dolar-bot
 pip install -r requirements.txt
 Configuración
