@@ -31,7 +31,7 @@ Configuración
 Creá un archivo .env con tus datos:
 EMAIL_ORIGEN=tu_email@gmail.com
 EMAIL_DESTINO=destinatario@gmail.com
-EMAIL_PASS=xxxx xxxx xxxx xxxx
+EMAIL_PASS=xxxx xxxx xxxx xxxx -> va entre comillas y todo junto
 
 La contraseña es una contraseña de aplicación de Google, no tu password normal.
 Creala en: myaccount.google.com → Seguridad → Contraseñas de aplicación
