@@ -80,7 +80,7 @@ def enviar_reporte(df: pd.DataFrame, alertas: list[str], excel_path: Path):
         return
 
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"💵 Dólar hoy {datetime.now():%d/%m/%Y} — reporte automático"
+    msg["Subject"] = f" Dólar hoy {datetime.now():%d/%m/%Y} — reporte automático"
     msg["From"]    = EMAIL_ORIGEN
     msg["To"]      = EMAIL_DESTINO
 

@@ -1,51 +1,120 @@
- DolarBot — Monitor automático de precios del dólar
-Bot en Python que consulta los precios del dólar (blue, oficial, bolsa, etc.)
-y envía un reporte diario por email con tabla HTML y archivo Excel adjunto.
-¿Qué hace?
+# 🤖 DolarBot 
 
-Obtiene precios actualizados desde la API pública de dolarito.ar
-Genera un Excel con formato prolijo y colores según tipo de cambio
-Envía email HTML con tabla de precios y alertas si el blue sube mucho
-Guarda un historial en CSV para análisis posterior
-Se puede programar para correr solo todos los días a las 9 AM
+![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-brightgreen.svg)
 
-Casos de Uso
-* **Ahorro de tiempo:** Elimina la necesidad de revisar portales financieros manualmente cada mañana.
-* **Toma de decisiones:** Alertas inmediatas al celular/correo cuando el mercado presenta variaciones bruscas.
-* **Registro contable:** El archivo Excel adjunto sirve como registro histórico para equipos de administración.
+> **An automated Python monitor for Argentine Dollar exchange rates.** > Fetches daily rates (Blue, Oficial, Bolsa, etc.) and delivers a comprehensive daily report straight to your inbox, featuring an HTML summary and a styled Excel attachment.
 
+---
 
-Estructura del proyecto
+## 📋 Table of Contents
+- [✨ Features](#-features)
+- [💡 Use Cases](#-use-cases)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📂 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [💻 Usage](#-usage)
+- [🤝 Contributing](#-contributing)
+
+---
+
+## ✨ Features
+
+* **📡 Real-Time Data:** Fetches the latest exchange rates directly from the public `dolarito.ar` API.
+* **📊 Excel Reports:** Automatically generates clean, color-coded `.xlsx` spreadsheets tailored to different exchange types.
+* **📧 Smart Email Alerts:** Sends a beautifully formatted HTML email containing a price table. Includes custom alerts if the *Blue* dollar spikes.
+* **💾 Historical Tracking:** Appends daily queries to a local `.csv` file, building a database for future financial analysis.
+* **⏱️ Automated Scheduling:** Set it and forget it. Can be configured to run automatically every day at 9:00 AM.
+
+---
+
+## 💡 Use Cases
+
+* **⏱️ Time-Saving:** Eliminates the need to manually refresh financial portals every morning.
+* **📈 Decision Making:** Get immediate alerts on your phone or email when the market experiences sudden, sharp variations.
+* **🗃️ Accounting Records:** The generated Excel attachments serve as a reliable historical ledger for administration and accounting teams.
+
+---
+
+## 🛠️ Tech Stack
+
+This project leverages powerful Python libraries for web scraping, data manipulation, and automation:
+
+* **[`requests`](https://pypi.org/project/requests/)** — For handling HTTP calls to the API.
+* **[`pandas`](https://pandas.pydata.org/)** — For robust data processing and CSV management.
+* **[`openpyxl`](https://openpyxl.readthedocs.io/)** — To generate and format the Excel reports.
+* **[`smtplib`](https://docs.python.org/3/library/smtplib.html)** — Built-in Python library for routing emails via Gmail.
+* **[`schedule`](https://pypi.org/project/schedule/)** — For lightweight, human-readable daily task automation.
+* **[`python-dotenv`](https://pypi.org/project/python-dotenv/)** — For secure environment variable management.
+
+---
+
+## 📂 Project Structure
+
+```text
 dolar_bot/
-├── scraper.py        ← punto de entrada principal
-├── excel_report.py   ← genera el archivo .xlsx
-├── email_sender.py   ← arma y envía el email
-├── scheduler.py      ← corre el bot diariamente
-├── requirements.txt
-└── .env              ← tus credenciales (no subir a GitHub)
-Instalación
-bashgit clone https://github.com/santiidiazz/dolar-bot
+├── scraper.py           # Main entry point and data fetching
+├── excel_report.py      # Handles .xlsx generation and styling
+├── email_sender.py      # Crafts the HTML and dispatches the email
+├── scheduler.py         # Automates the bot's daily execution
+├── requirements.txt     # Project dependencies
+└── .env                 # Environment variables (Ignored by Git)
+
+Getting Started
+Prerequisites
+Make sure you have Python 3.8+ installed on your system.
+
+Installation
+Clone the repository:
+
+Bash
+git clone [https://github.com/santiidiazz/dolar-bot.git](https://github.com/santiidiazz/dolar-bot.git)
 cd dolar-bot
+Install dependencies:
+
+Bash
 pip install -r requirements.txt
-Configuración
-Creá un archivo .env con tus datos:
-EMAIL_ORIGEN=tu_email@gmail.com
-EMAIL_DESTINO=destinatario@gmail.com
-EMAIL_PASS=xxxx xxxx xxxx xxxx -> va entre comillas y todo junto
+Configuration
+You need to set up your email credentials securely. Create a .env file in the root directory of the project:
 
-La contraseña es una contraseña de aplicación de Google, no tu password normal.
-Creala en: myaccount.google.com → Seguridad → Contraseñas de aplicación
+Code snippet
+EMAIL_ORIGEN=your_email@gmail.com
+EMAIL_DESTINO=recipient_email@gmail.com
+EMAIL_PASS="your16characterapppassword"
+⚠️ IMPORTANT: About EMAIL_PASS
+This should not be your regular Gmail password. You must use a Google App Password.
 
-Uso
-Correr una vez manualmente:
-bashpython scraper.py
-Programar para correr todos los días a las 9 AM:
-bashpython scheduler.py
-Tecnologías usadas
+Go to myaccount.google.com.
 
-requests — llamadas HTTP a la API
-pandas — procesamiento de datos
-openpyxl — generación del Excel con formato
-smtplib — envío de email via Gmail
-schedule — automatización de la tarea diaria
-python-dotenv — manejo seguro de credenciales
+Navigate to Security -> 2-Step Verification -> App Passwords.
+
+Generate a new password. Copy the 16-character code, remove all spaces, and wrap it in quotes in your .env file.
+
+💻 Usage
+Depending on your needs, you can run DolarBot once or leave it running in the background.
+
+Option A: Run Manually (Once) To fetch the data and send the email immediately:
+
+Bash
+python scraper.py
+Option B: Schedule Daily Execution To leave the bot running so it automatically triggers every day at 9:00 AM:
+
+Bash
+python scheduler.py
+🤝 Contributing
+Contributions, issues, and feature requests are welcome!
+Feel free to check out the issues page if you want to contribute.
+
+Fork the Project
+
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+
+Push to the Branch (git push origin feature/AmazingFeature)
+
+Open a Pull Request
